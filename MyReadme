@@ -1,0 +1,30 @@
+create .env file with vim and add below environmental varibale init
+
+MYSQL_HOST=this must be your mysql conatiner name
+MYSQL_USER=admin
+MYSQL_PASSWORD=admin
+MYSQL_DB=mydb
+
+create network : docker network create my_network
+
+
+Command to create docker conatiner for mysql
+------------------------------------------------------
+docker run --name my_mysql_container \
+  -e MYSQL_ROOT_PASSWORD=root_password \
+  -e MYSQL_USER=admin \
+  -e MYSQL_PASSWORD=admin \
+  -e MYSQL_DATABASE=mydb \
+  -p 3306:3306 \
+  --network my_network \
+  -d mysql:latest
+
+
+docker build -t my_flask_app .
+
+
+docker run --name my_flask_app_container \
+  --env-file .env \
+  --network my_network \
+  -p 5000:5000 \
+  -d my_flask_app
